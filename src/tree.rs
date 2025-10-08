@@ -68,12 +68,12 @@ impl<T: Ord> TreeNode<T> {
 impl<T: Ord> TreeNode<T> {
     /// Creates a new `TreeNode<T>` with value `value` and children `left` and `right`
     pub fn node(value: T, left: TreeNode<T>, right: TreeNode<T>) -> TreeNode<T> {
-        todo!()
+        TreeNode::Node(value, Box::new(left), Box::new(right))
     }
 
     /// Creates a new `TreeNode<T>` with no children
     pub fn new() -> TreeNode<T> {
-        todo!()
+        TreeNode::Leaf
     }
 
     /// Inserts a new node with value `value` into the tree. If the value already exists in the tree,
@@ -108,15 +108,25 @@ impl<T: Ord> TreeNode<T> {
 // Implement `Default` for `TreeNode<T>`
 impl<T: Ord> Default for TreeNode<T> {
     fn default() -> Self {
-        todo!()
+        TreeNode::Leaf
     }
 }
 
 // Implement `PartialEq` for `TreeNode<T>`
-// TODO:
+impl<T: Ord> PartialEq for TreeNode<T> where T: PartialEq{
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (TreeNode::Leaf, TreeNode::Leaf) => true,
+            (TreeNode::Node(val1, left1,right1), TreeNode::Node(val2, left2, right2)) => {
+                val1 == val2 && left1.eq(left2) && right1.eq(right2)
+            },
+            _ => false
+        }
+    }
+}
 
 // Implement `Eq` for `TreeNode<T>`
-// TODO:
+impl<T: Ord> Eq for TreeNode<T> where T: Eq{}
 
 // Implement `From<Vec<T>>` for `TreeNode<T>`
 // TODO:

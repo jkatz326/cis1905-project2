@@ -33,7 +33,6 @@ fn validate<T: Ord>(node: &TreeNode<T>) -> bool {
 struct Num(i32);
 
 /// This test checks that the default implementation of `TreeNode` is `Leaf`
-/*
 #[test]
 pub fn test_impls_default_5() {
     let list: TreeNode<Num> = TreeNode::default();
@@ -48,10 +47,10 @@ pub fn test_impls_default_5() {
         }
     }
 }
-*/
+
 
 /// This test checks that `TreeNode` properly implements `Eq`
-/*
+
 #[test]
 pub fn test_impls_eq_5() {
     let tree1: TreeNode<Num> = TreeNode::Node(
@@ -127,7 +126,7 @@ pub fn test_impls_eq_5() {
         assert!(false);
     }
 }
-*/
+
 
 /// This test checks that inserting duplicate values does not affect the tree.
 /*
