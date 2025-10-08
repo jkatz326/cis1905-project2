@@ -129,7 +129,15 @@ impl<T: Ord> PartialEq for TreeNode<T> where T: PartialEq{
 impl<T: Ord> Eq for TreeNode<T> where T: Eq{}
 
 // Implement `From<Vec<T>>` for `TreeNode<T>`
-// TODO:
+impl<T: Ord> From<Vec<T>> for TreeNode<T> {
+    fn from(value: Vec<T>) -> Self {
+        todo!()
+    }
+}
 
 // Implement `From<TreeNode<T>>` for `Vec<T>`
-// TODO:
+impl<T: Ord> From<TreeNode<T>> for Vec<T> {
+    fn from(value: TreeNode<T>) -> Self {
+        todo!()
+    }
+}
