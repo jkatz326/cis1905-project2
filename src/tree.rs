@@ -82,15 +82,19 @@ impl<T: Ord> TreeNode<T> {
     /// After insertion, the tree is rebalanced if necessary
     pub fn insert(&mut self, value: T) {
         match self {
+            // If Leaf insert at this position
             TreeNode::Leaf => *self = TreeNode::node(value, TreeNode::new(), TreeNode::new()),
             TreeNode::Node(node_val, left, right) => {
                 match value.cmp(node_val) {
+                    // Else if tree already contains value, no need to modify tree
                     std::cmp::Ordering::Equal => return,
+                    // Else need to continue traversal, left if less, right if more
                     std::cmp::Ordering::Less => left.insert(value),
                     std::cmp::Ordering::Greater => right.insert(value),
                 }
             }
         }
+        // Rebalance after insert if needed
         self.rebalance();
     }
 
@@ -102,7 +106,7 @@ impl<T: Ord> TreeNode<T> {
         }
     }
 
-    /// Performs a left rotation on the tree
+    /// Performs a left rotation on the tree, see pseudocode in README
     pub fn left_rotate(&mut self) {
         let root = mem::replace(self, TreeNode::Leaf);
         match root {
@@ -192,7 +196,24 @@ impl<T: Ord> From<Vec<T>> for TreeNode<T> {
 
 // Implement `From<TreeNode<T>>` for `Vec<T>`
 impl<T: Ord> From<TreeNode<T>> for Vec<T> {
-    fn from(value: TreeNode<T>) -> Self {
-        todo!()
+    fn from(node: TreeNode<T>) -> Self {
+        let mut vec : Vec<T> = Vec::new();
+        in_order_traversal(&mut vec, node);
+        vec
+    }
+}
+
+// Helper for From TreeNode to Vec
+fn in_order_traversal<T: Ord>(vec : &mut Vec<T>, node: TreeNode<T>) {
+    match node {
+        TreeNode::Leaf => {},
+        TreeNode::Node(value , left, right ) => {
+            // Traverse left subtree adding to list
+            in_order_traversal(vec, *left);
+            // Next, push value in this node to list
+            vec.push(value);
+            // Finally, traverse right subtree
+            in_order_traversal(vec, *right);
+        }
     }
 }

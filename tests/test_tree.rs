@@ -267,7 +267,7 @@ fn test_insert_5() {
 /// and checks that a property holds for all of them.
 /// In this case, the property is that adding all the elements from a `Vec<i32>` to a `TreeNode<i32>`
 /// and converting it back to a `Vec<i32>` should yield the same `Vec<i32>` you started with.
-/*
+
 #[test]
 fn test_insert_roundtrip_10() {
     fn roundtrip(v: Vec<i32>) -> bool {
@@ -294,6 +294,6 @@ fn test_insert_roundtrip_10() {
     }
     quickcheck(roundtrip as fn(Vec<i32>) -> bool);
 }
-*/
+
 
 const _UNUSED: bool = true;
