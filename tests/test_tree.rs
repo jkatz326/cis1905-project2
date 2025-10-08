@@ -129,7 +129,7 @@ pub fn test_impls_eq_5() {
 
 
 /// This test checks that inserting duplicate values does not affect the tree.
-/*
+
 #[test]
 fn test_insert_same_5() {
     let mut t = TreeNode::new();
@@ -144,10 +144,10 @@ fn test_insert_same_5() {
         TreeNode::Node(1, Box::new(TreeNode::Leaf), Box::new(TreeNode::Leaf))
     );
 }
-*/
+
 
 /// This test checks that right rotation works correctly.
-/*
+
 #[test]
 fn test_rotate_right_5() {
     let mut t = TreeNode::Node(
@@ -181,10 +181,10 @@ fn test_rotate_right_5() {
     t.right_rotate();
     assert_eq!(t, expected);
 }
-*/
+
 
 /// This test checks that left rotation works correctly.
-/*
+
 #[test]
 fn test_rotate_left_5() {
     let mut t = TreeNode::Node(
@@ -218,7 +218,7 @@ fn test_rotate_left_5() {
     t.left_rotate();
     assert_eq!(t, expected);
 }
-*/
+
 
 /// This test checks that the tree is balanced after inserting a few values.
 #[test]

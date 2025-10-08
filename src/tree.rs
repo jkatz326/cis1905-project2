@@ -81,27 +81,78 @@ impl<T: Ord> TreeNode<T> {
     ///
     /// After insertion, the tree is rebalanced if necessary
     pub fn insert(&mut self, value: T) {
-        todo!()
+        match self {
+            TreeNode::Leaf => *self = TreeNode::node(value, TreeNode::new(), TreeNode::new()),
+            TreeNode::Node(node_val, left, right) => {
+                match value.cmp(node_val) {
+                    std::cmp::Ordering::Equal => return,
+                    std::cmp::Ordering::Less => left.insert(value),
+                    std::cmp::Ordering::Greater => right.insert(value),
+                }
+            }
+        }
+        self.rebalance();
     }
 
     /// Computes the balance factor of the tree (the difference between the height of the left and right subtrees)
     fn balance_factor(&self) -> i32 {
-        todo!()
+        match self {
+            TreeNode::Leaf => 0,
+            TreeNode::Node(_, left, right) => (left.height() as i32) - (right.height() as i32)
+        }
     }
 
     /// Performs a left rotation on the tree
     pub fn left_rotate(&mut self) {
-        todo!()
+        let root = mem::replace(self, TreeNode::Leaf);
+        match root {
+            TreeNode::Leaf => return,
+            TreeNode::Node(root_value, left, right) => {
+                match *right {
+                    TreeNode::Leaf => *self = TreeNode::node(root_value, *left, TreeNode::Leaf),
+                    TreeNode::Node(pivot_value, pivot_left, pivot_right) => {
+                        *self = TreeNode::node(pivot_value, TreeNode::node(root_value, *left, *pivot_left), *pivot_right)
+                    }
+                }
+            }
+        }
     }
     /// Performs a right rotation on the tree
     pub fn right_rotate(&mut self) {
-        todo!()
+        let root = mem::replace(self, TreeNode::Leaf);
+        match root {
+            TreeNode::Leaf => return,
+            TreeNode::Node(root_value, left, right) => {
+                match *left {
+                    TreeNode::Leaf => *self = TreeNode::node(root_value, TreeNode::Leaf, *right),
+                    TreeNode::Node(pivot_value, pivot_left, pivot_right) => {
+                        *self = TreeNode::node(pivot_value, *pivot_left, TreeNode::node(root_value, *pivot_right, *right))
+                    }
+                }
+            }
+        }
     }
 
     /// Rebalances the tree using either a single or double rotation, as specified in the AVL tree
     /// rebalancing algorithm.
     fn rebalance(&mut self) {
-        todo!()
+        let balance_factor : i32 = self.balance_factor();
+        match self {
+                TreeNode::Node(value, left, right) => {
+                    if balance_factor == -2 {
+                        if right.balance_factor() == 1 {
+                            right.right_rotate();
+                        }
+                        self.left_rotate();
+                    } else if balance_factor == 2 {
+                        if left.balance_factor() == -1 {
+                            left.left_rotate();
+                        }
+                        self.right_rotate();
+                    }
+                }
+                TreeNode::Leaf => {}
+            }
     }
 }
 
@@ -130,8 +181,12 @@ impl<T: Ord> Eq for TreeNode<T> where T: Eq{}
 
 // Implement `From<Vec<T>>` for `TreeNode<T>`
 impl<T: Ord> From<Vec<T>> for TreeNode<T> {
-    fn from(value: Vec<T>) -> Self {
-        todo!()
+    fn from(vec: Vec<T>) -> Self {
+        let mut tree : TreeNode<T> = TreeNode::new();
+        for x in vec.into_iter() {
+            tree.insert(x);
+        }
+        tree
     }
 }
 

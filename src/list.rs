@@ -150,7 +150,6 @@ impl<T> From<Vec<T>> for ListNode<T> {
   fn from(vec: Vec<T>) -> Self {
     let mut head: ListNode<T> = ListNode::default();
     let mut list: &mut ListNode<T> = &mut head;
-    //T doesn't implement copy so not sure how we can preserve original vector
     for x in vec.into_iter() {
       list = list.insert(x);
     }
@@ -167,7 +166,7 @@ impl<T> From<ListNode<T>> for Vec<T> {
         match current {
           ListNode::Nil => break,
           ListNode::Cons(value, next) => {
-            vec.insert(0, value);
+            vec.push(value);
             current = *next;
           }
         }
